@@ -1,0 +1,14 @@
+{
+  "name": "delivery-judge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "三重蘆洲外送派單判斷 API：讀 OCR 文字，算實際時薪，回傳接或不接",
+  "scripts": {
+    "test": "node --test",
+    "try": "node scripts/try.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
