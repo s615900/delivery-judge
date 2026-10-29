@@ -124,26 +124,26 @@ function mockRes() {
   return res;
 }
 
-test('API：正常請求', () => {
+test('API：正常請求', async () => {
   const res = mockRes();
-  handler({ method: 'POST', headers: {}, body: { text: SINGLE_HOT, target: 200 } }, res);
+  await handler({ method: 'POST', headers: {}, body: { text: SINGLE_HOT, target: 200 } }, res);
   assert.equal(res.statusCode, 200);
   assert.match(res.body.speak, /^接/);
 });
 
-test('API：設了金鑰時要驗證', () => {
+test('API：設了金鑰時要驗證', async () => {
   process.env.JUDGE_TOKEN = 'abc';
   const bad = mockRes();
-  handler({ method: 'POST', headers: {}, body: { text: SINGLE_HOT } }, bad);
+  await handler({ method: 'POST', headers: {}, body: { text: SINGLE_HOT } }, bad);
   assert.equal(bad.statusCode, 401);
   const ok = mockRes();
-  handler({ method: 'POST', headers: { 'x-judge-token': 'abc' }, body: { text: SINGLE_HOT } }, ok);
+  await handler({ method: 'POST', headers: { 'x-judge-token': 'abc' }, body: { text: SINGLE_HOT } }, ok);
   assert.equal(ok.statusCode, 200);
   delete process.env.JUDGE_TOKEN;
 });
 
-test('API：只接受 POST', () => {
+test('API：只接受 POST', async () => {
   const res = mockRes();
-  handler({ method: 'GET', headers: {} }, res);
+  await handler({ method: 'GET', headers: {} }, res);
   assert.equal(res.statusCode, 405);
 });
